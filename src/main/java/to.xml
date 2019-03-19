@@ -1,0 +1,11 @@
+<root>
+<body>
+ <from>lvzhixin1988@126.com</from>
+ <to>lvzhixin1988@126.com</to>
+ <subject>感谢行</subject>
+ <setContent>你好，感谢您的来电</setContent>
+ <files>
+ <file>D:\springworkspace\com.mail\src\main\工作简历（吕志鑫).pdf</file>
+ </files>
+</body>
+</root>
