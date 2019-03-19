@@ -144,6 +144,7 @@ public class SendMail {
 			 properties.setProperty("mail.user", p.getProperty("username"));
 			 properties.setProperty("mail.password",p.getProperty("password"));
 			 properties.setProperty("mail.transport.protocol", "smtp");
+			 properties.setProperty("mail.mime.charset", "UTF-8");
 			 
 			Session session = Session.getDefaultInstance(properties);
 			session.setDebug(true);
