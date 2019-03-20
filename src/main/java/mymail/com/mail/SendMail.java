@@ -1,6 +1,5 @@
 package mymail.com.mail;
 
-import java.io.ObjectInputStream.GetField;
 import java.io.UnsupportedEncodingException;
 import java.security.Security;
 import java.util.List;
@@ -9,13 +8,10 @@ import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-import javax.mail.Address;
-import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -29,12 +25,14 @@ import mymail.com.mail.lzx.ReadProperties;
 import mymail.com.mail.lzx.ReadXMl;
 import mymail.com.mail.lzx.ToObject;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 /**
  * Hello world!
  *
  */
 public class SendMail {
-
+	private static final Logger logger = LogManager.getLogger(SendMail.class);
 	public static void sendMessage(ToObject to, Session session,Properties p) {
 		try {
 			// 创建默认的 MimeMessage 对象
@@ -55,8 +53,10 @@ public class SendMail {
 			Transport ts = session.getTransport();
 			ts.connect(p.getProperty("host"), p.getProperty("username").trim(), p.getProperty("password").trim());
 			ts.sendMessage(message,message.getAllRecipients());
+			logger.info("发送成功："+to.getTo());
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.info("发送失败："+to.getTo());
 		}
 
 	}
@@ -105,12 +105,15 @@ public class SendMail {
 	         Transport ts = session.getTransport();
 	         ts.connect(p.getProperty("host"), p.getProperty("username").trim(), p.getProperty("password").trim());
 	         ts.sendMessage(message, message.getAllRecipients());
+	         logger.info("发送成功："+to.getTo());
 		}catch (MessagingException e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			logger.info("发送失败："+to.getTo());
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.info("发送失败："+to.getTo());
 		}
 
 	}
@@ -147,7 +150,7 @@ public class SendMail {
 			 properties.setProperty("mail.mime.charset", "UTF-8");
 			 
 			Session session = Session.getDefaultInstance(properties);
-			session.setDebug(true);
+			session.setDebug(false);
 			for(ToObject to:tos) {
 				SendMail.sendFileMessage(to, session,p);
 			}
